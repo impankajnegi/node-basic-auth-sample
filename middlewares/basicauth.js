@@ -49,7 +49,13 @@ const basicAuth = (req, res, next)=>{
         res.setHeader('WWW-Authenticate', 'Basic realm="Node"') 
         return res.status(401).send('Credentials missing')
       } 
-      next()
+      //Write your authectication logic here
+      let aa = req.headers.authorization.substring(6)
+      const [username, password] = Buffer.from(aa, 'base64').toString().split(":")
+      console.log(username, password)
+      if(username==='admin' && password==='password'){ next()}
+      else{  res.setHeader('WWW-Authenticate', 'Basic realm="Node"') 
+      return res.status(403).send('Credentials did mot match')}
 
       
 }
